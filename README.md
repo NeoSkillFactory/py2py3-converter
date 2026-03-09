@@ -2,20 +2,16 @@
 
 ![Audit](https://img.shields.io/badge/audit%3A%20PASS-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![OpenClaw](https://img.shields.io/badge/OpenClaw-skill-orange)
 
-> A skill that automatically converts legacy Python 2 code to Python 3 with compatibility checks and test generation.
+> Automatically converts legacy Python 2 code to Python 3 with compatibility checks and test generation.
 
-I'll continue from where we left off. Let me check the current state of the workspace and pick up the task.
+py2py3-converter is a skill that automatically converts legacy python 2 code to python 3 with compatibility checks and test generation.  
+See the source code for full details and usage instructions.
 
-## OpenClaw Marketplace
+## GitHub
 
-This skill is available on [ClawHub](https://clawhub.ai) — the OpenClaw skill marketplace.
-Install it in any OpenClaw agent workspace with:
+Source code: [github.com/NeoSkillFactory/py2py3-converter](https://github.com/NeoSkillFactory/py2py3-converter)
 
-```bash
-clawhub install py2py3-converter
-```
-
-**Recommended price when commercial:** $19.99 USD
+**Price suggestion:** $19.99 USD
 
 ## License
 
