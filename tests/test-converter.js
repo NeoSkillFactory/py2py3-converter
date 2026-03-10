@@ -212,6 +212,65 @@ console.log("\n--- Test Generator ---");
   assertIncludes(tests, "def test_greet_exists", "Generated tests include function existence check");
 })();
 
+// ========== Edge Case Tests ==========
+console.log("\n--- Edge Cases ---");
+
+(function testPrintTrailingComma() {
+  const result = convert('print "hello",');
+  assertIncludes(result.convertedCode, 'print("hello", end=" ")', "Print trailing comma converts to end kwarg");
+})();
+
+(function testMultipleFutureImports() {
+  const result = convert('from __future__ import print_function, unicode_literals');
+  assertNotIncludes(result.convertedCode, 'from __future__', "Multiple __future__ imports removed");
+})();
+
+(function testPartialFutureImport() {
+  const result = convert('from __future__ import print_function, some_custom');
+  assertIncludes(result.convertedCode, 'from __future__ import some_custom', "Non-standard __future__ import kept");
+})();
+
+(function testReduceWithExistingFunctoolsImport() {
+  const code = 'from functools import partial\ntotal = reduce(lambda a, b: a + b, [1, 2])';
+  const result = convert(code);
+  // Should still add functools import since only partial was imported
+  assertIncludes(result.convertedCode, 'from functools import reduce', "Adds reduce import even when functools partially imported");
+})();
+
+(function testMethodReduceNotConverted() {
+  const code = 'df.reduce(lambda a, b: a + b)';
+  const result = convert(code);
+  assertNotIncludes(result.convertedCode, 'from functools import reduce', "Method .reduce() does not trigger functools import");
+})();
+
+(function testEmptyInput() {
+  const result = convert('');
+  assertEqual(result.convertedCode, '', "Empty input returns empty output");
+  assertEqual(result.issues.length, 0, "Empty input has no issues");
+})();
+
+(function testCodeWithNoConversions() {
+  const code = 'x = 1\ny = 2\nprint(x + y)';
+  const result = convert(code);
+  assertEqual(result.convertedCode, code, "Python 3 code passes through unchanged");
+})();
+
+(function testFromImportRemap() {
+  const result = convert('from ConfigParser import SafeConfigParser');
+  assertIncludes(result.convertedCode, 'from configparser import SafeConfigParser', "from X import Y remaps correctly");
+})();
+
+(function testIndentPreserved() {
+  const result = convert('    print "indented"');
+  assertIncludes(result.convertedCode, '    print("indented")', "Indentation is preserved");
+})();
+
+(function testMultipleConversionsOnOneLine() {
+  const result = convert('x = unicode(raw_input("prompt"))');
+  assertIncludes(result.convertedCode, 'str(', "unicode() converted");
+  assertIncludes(result.convertedCode, 'input(', "raw_input() converted on same line");
+})();
+
 // ========== Full Integration Test ==========
 console.log("\n--- Full Integration ---");
 

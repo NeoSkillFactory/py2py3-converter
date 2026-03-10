@@ -43,9 +43,10 @@ function convert(code, options) {
   let needsFunctoolsImport = false;
   let hasFunctoolsImport = false;
 
-  // Check if functools is already imported
+  // Check if reduce is already imported from functools
   for (let i = 0; i < lines.length; i++) {
-    if (/^\s*(?:from\s+functools\s+import|import\s+functools)/.test(lines[i])) {
+    if (/^\s*from\s+functools\s+import\s+.*\breduce\b/.test(lines[i]) ||
+        /^\s*import\s+functools\b/.test(lines[i])) {
       hasFunctoolsImport = true;
       break;
     }
