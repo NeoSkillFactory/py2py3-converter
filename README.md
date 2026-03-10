@@ -11,8 +11,6 @@ See the source code for full details and usage instructions.
 
 Source code: [github.com/NeoSkillFactory/py2py3-converter](https://github.com/NeoSkillFactory/py2py3-converter)
 
-**Price suggestion:** $19.99 USD
-
 ## License
 
 MIT © NeoSkillFactory
